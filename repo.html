@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yushi.in - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Ninja+Naruto&family=Rubik:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            overflow-x: hidden;
+        }
+        
+        .naruto-font {
+            font-family: 'Ninja Naruto', cursive;
+        }
+        
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .project-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 165, 0, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .project-card:hover::before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 165, 0, 0.2);
+        }
+        
+        .kunai {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        .naruto-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff7f00' fill-opacity='0.05' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white naruto-pattern">
+    <!-- Kunai decorations -->
+    <div class="kunai top-10 left-10 transform rotate-45"></div>
+    <div class="kunai bottom-10 right-10 transform -rotate-12"></div>
+    
+    <!-- Header Section -->
+    <header class="container mx-auto px-4 py-12">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl md:text-6xl font-bold mb-4">
+                <span class="text-orange-500">Owner</span> of <span class="text-orange-500 naruto-font">Yushi.in</span>
+            </h1>
+            <div id="typing-text" class="text-2xl md:text-3xl text-gray-300 typing-cursor"></div>
+        </div>
+    </header>
+    
+    <!-- Personal Info Section -->
+    <section class="container mx-auto px-4 mb-16">
+        <div class="max-w-4xl mx-auto bg-gray-800 bg-opacity-70 rounded-lg p-8 shadow-2xl border-l-4 border-orange-500">
+            <h2 class="text-3xl font-bold mb-6 text-orange-500 flex items-center">
+                <i class="fas fa-user-ninja mr-3"></i> About Me
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-signature text-orange-500 w-8"></i>
+                        <span class="ml-3 text-lg"><span class="font-semibold">Name:</span> Sahil Bhagat</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-birthday-cake text-orange-500 w-8"></i>
+                        <span class="ml-3 text-lg"><span class="font-semibold">Age:</span> 16</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i class="fas fa-calendar text-orange-500 w-8"></i>
+                        <span class="ml-3 text-lg"><span class="font-semibold">DOB:</span> October 23, 2009</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-bullseye text-orange-500 w-8"></i>
+                        <span class="ml-3 text-lg"><span class="font-semibold">Dream:</span> Developer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-gray-900 bg-opacity-50 rounded-lg">
+                <p class="text-gray-300 italic">"I'm gonna be a better developer than my old self! And I'm gonna be the greatest Artificial intelligence developer in the world has ever seen!"</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Projects Section -->
+    <section class="container mx-auto px-4 pb-16">
+        <h2 class="text-3xl font-bold mb-8 text-center text-orange-500">
+            <i class="fas fa-folder-open mr-2"></i> My Projects
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-container">
+            <!-- Projects will be dynamically inserted here -->
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-6 text-center">
+        <p class="text-gray-400">© 2023 Yushi.in - All Rights Reserved</p>
+        <div class="mt-4 flex justify-center space-x-4">
+            <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors">
+                <i class="fab fa-github text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors">
+                <i class="fab fa-twitter text-2xl"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-orange-500 transition-colors">
+                <i class="fab fa-linkedin text-2xl"></i>
+            </a>
+        </div>
+    </footer>
+    
+    <script>
+        // Typing animation
+        const typingText = document.getElementById('typing-text');
+        const phrases = [
+            "Web Developer & Designer",
+            "Ninja of the Hidden Leaf",
+            "Ramen Enthusiast",
+            "Creator of Amazing Projects"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeText() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingText.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingText.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 50 : 100;
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500;
+            }
+            
+            setTimeout(typeText, typeSpeed);
+        }
+        
+        // Projects data
+        const projects = [
+            {
+                title: "Ninja Portfolio",
+                description: "A stunning portfolio website showcasing my web development skills with a ninja theme.",
+                image: "https://picsum.photos/seed/ninja-portfolio/400/250.jpg",
+                link: "https://example.com/ninja-portfolio",
+                tech: ["HTML", "CSS", "JavaScript"]
+            },
+            {
+                title: "Ramen Recipe App",
+                description: "An interactive app for discovering and sharing ramen recipes from around the world.",
+                image: "https://picsum.photos/seed/ramen-app/400/250.jpg",
+                link: "https://example.com/ramen-app",
+                tech: ["React", "Node.js", "MongoDB"]
+            },
+            {
+                title: "Jutsu Tracker",
+                description: "A comprehensive tracking system for learning and mastering various ninja techniques.",
+                image: "https://picsum.photos/seed/jutsu-tracker/400/250.jpg",
+                link: "https://example.com/jutsu-tracker",
+                tech: ["Vue.js", "Firebase", "Tailwind"]
+            },
+            {
+                title: "Hidden Leaf Blog",
+                description: "A blog platform for sharing stories and knowledge about the ninja world.",
+                image: "https://picsum.photos/seed/leaf-blog/400/250.jpg",
+                link: "https://example.com/leaf-blog",
+                tech: ["Next.js", "GraphQL", "PostgreSQL"]
+            },
+            {
+                title: "Chakra Calculator",
+                description: "An interactive tool for calculating and visualizing chakra levels and types.",
+                image: "https://picsum.photos/seed/chakra-calc/400/250.jpg",
+                link: "https://example.com/chakra-calculator",
+                tech: ["Angular", "D3.js", "Express"]
+            },
+            {
+                title: "Mission Board",
+                description: "A task management system inspired by the ninja mission ranking system.",
+                image: "https://picsum.photos/seed/mission-board/400/250.jpg",
+                link: "https://example.com/mission-board",
+                tech: ["Svelte", "Supabase", "Tailwind"]
+            }
+        ];
+        
+        // Create project cards
+        function createProjectCards() {
+            const container = document.getElementById('projects-container');
+            
+            projects.forEach((project, index) => {
+                const card = document.createElement('div');
+                card.className = 'project-card bg-gray-800 rounded-lg overflow-hidden shadow-xl';
+                card.innerHTML = `
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">${project.title}</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-300 mb-4">${project.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${project.tech.map(tech => `<span class="px-2 py-1 bg-orange-500 bg-opacity-20 text-orange-400 text-xs rounded-full">${tech}</span>`).join('')}
+                        </div>
+                        <a href="${project.link}" target="_blank" class="inline-flex items-center text-orange-500 hover:text-orange-400 transition-colors">
+                            <span>View Project</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            typeText();
+            createProjectCards();
+            
+            // Animate elements on scroll
+            anime({
+                targets: '.project-card',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(100),
+                duration: 800,
+                easing: 'easeOutQuad'
+            });
+            
+            // Animate personal info section
+            anime({
+                targets: '.bg-gray-800',
+                translateX: [-50, 0],
+                opacity: [0, 1],
+                duration: 1000,
+                easing: 'easeOutQuad'
+            });
+            
+            // Floating animation for kunai
+            anime({
+                targets: '.kunai',
+                translateY: [0, 20, 0],
+                translateX: [0, 10, 0],
+                rotate: [45, 50, 45],
+                duration: 4000,
+                direction: 'alternate',
+                loop: true,
+                easing: 'easeInOutSine'
+            });
+        });
+    </script>
+</body>
+</html>
