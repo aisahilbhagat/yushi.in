@@ -4,17 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yushi.in - Hacker Portfolio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
             font-family: 'Share Tech Mono', monospace;
             background: #000;
             overflow-x: hidden;
             position: relative;
+            min-height: 100vh;
+            color: #00ff41;
         }
         
         .hacker-font {
@@ -38,6 +45,7 @@
             overflow: hidden;
             border: 1px solid #00ff41;
             background: rgba(0, 20, 0, 0.8);
+            border-radius: 0.5rem;
         }
         
         .project-card::before {
@@ -84,6 +92,45 @@
                     #00ff41 2px,
                     #00ff41 4px
                 );
+        }
+        
+        .binary-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .binary-char {
+            position: absolute;
+            color: #00ff41;
+            font-family: monospace;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+        
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff41, transparent);
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100vh; }
         }
         
         .terminal-text {
@@ -149,54 +196,19 @@
             80% { clip: rect(132px, 350px, 12px, 30px); }
         }
         
-        .binary-rain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.1;
-        }
-        
-        .binary-char {
-            position: absolute;
-            color: #00ff41;
-            font-family: monospace;
-            animation: fall linear infinite;
-        }
-        
-        @keyframes fall {
-            to { transform: translateY(100vh); }
-        }
-        
-        .scan-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00ff41, transparent);
-            animation: scan 8s linear infinite;
-            pointer-events: none;
-            z-index: 9999;
-        }
-        
-        @keyframes scan {
-            0% { top: 0; }
-            100% { top: 100vh; }
-        }
-        
         .hacker-border {
             border: 2px solid #00ff41;
             box-shadow: 0 0 10px rgba(0, 255, 65, 0.5), inset 0 0 10px rgba(0, 255, 65, 0.1);
+            border-radius: 0.5rem;
         }
         
         .tech-tag {
             background: rgba(0, 255, 65, 0.1);
             border: 1px solid #00ff41;
             color: #00ff41;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
         }
         
         .url-render {
@@ -289,7 +301,300 @@
             text-align: center;
             font-size: 0.9rem;
         }
-
+        
+        /* Custom CSS to replace Tailwind */
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+            }
+        }
+        
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .py-12 {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+        
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        
+        .mb-16 {
+            margin-bottom: 4rem;
+        }
+        
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+        
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+        
+        .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+        
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .mt-6 {
+            margin-top: 1.5rem;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .text-sm {
+            font-size: 0.875rem;
+        }
+        
+        .text-xs {
+            font-size: 0.75rem;
+        }
+        
+        .text-lg {
+            font-size: 1.125rem;
+        }
+        
+        .text-xl {
+            font-size: 1.25rem;
+        }
+        
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+        
+        .text-3xl {
+            font-size: 1.875rem;
+        }
+        
+        .text-5xl {
+            font-size: 3rem;
+        }
+        
+        .font-bold {
+            font-weight: bold;
+        }
+        
+        .font-semibold {
+            font-weight: 600;
+        }
+        
+        .relative {
+            position: relative;
+        }
+        
+        .z-10 {
+            z-index: 10;
+        }
+        
+        .bg-black {
+            background-color: #000;
+        }
+        
+        .bg-opacity-80 {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+        
+        .p-8 {
+            padding: 2rem;
+        }
+        
+        .p-6 {
+            padding: 1.5rem;
+        }
+        
+        .p-4 {
+            padding: 1rem;
+        }
+        
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-center {
+            justify-content: center;
+        }
+        
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        
+        .inline-flex {
+            display: inline-flex;
+        }
+        
+        .mr-3 {
+            margin-right: 0.75rem;
+        }
+        
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+        
+        .ml-2 {
+            margin-left: 0.5rem;
+        }
+        
+        .ml-3 {
+            margin-left: 0.75rem;
+        }
+        
+        .w-8 {
+            width: 2rem;
+        }
+        
+        .gap-2 {
+            gap: 0.5rem;
+        }
+        
+        .gap-3 {
+            gap: 0.75rem;
+        }
+        
+        .gap-6 {
+            gap: 1.5rem;
+        }
+        
+        .gap-8 {
+            gap: 2rem;
+        }
+        
+        .border {
+            border-width: 1px;
+        }
+        
+        .border-green-500 {
+            border-color: #00ff41;
+        }
+        
+        .border-t {
+            border-top-width: 1px;
+        }
+        
+        .rounded {
+            border-radius: 0.25rem;
+        }
+        
+        .italic {
+            font-style: italic;
+        }
+        
+        .hover\:text-cyan-400:hover {
+            color: #00ffff;
+        }
+        
+        .transition-colors {
+            transition: color 0.15s ease;
+        }
+        
+        .hover\:bg-black:hover {
+            background-color: #000;
+        }
+        
+        .text-cyan-400 {
+            color: #00ffff;
+        }
+        
+        .text-green-300 {
+            color: #00ff41;
+        }
+        
+        .grid {
+            display: grid;
+        }
+        
+        .md\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        
+        .lg\:grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        
+        .pb-16 {
+            padding-bottom: 4rem;
+        }
+        
+        .space-x-6 > * + * {
+            margin-left: 1.5rem;
+        }
+        
+        .max-w-4xl {
+            max-width: 56rem;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .text-5xl {
+                font-size: 2.25rem;
+            }
+            
+            .text-7xl {
+                font-size: 3rem;
+            }
+            
+            .md\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .lg\:grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .text-2xl {
+                font-size: 1.5rem;
+            }
+            
+            .text-7xl {
+                font-size: 4.5rem;
+            }
+        }
+        
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -308,7 +613,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-green-400">
+<body>
     <!-- Matrix Background -->
     <div class="matrix-bg"></div>
     <div class="binary-rain" id="binary-rain"></div>
