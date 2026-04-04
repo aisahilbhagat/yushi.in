@@ -3,121 +3,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yushi.in - Hacker Portfolio</title>
+    <title>Yushi.in - Netrunner Portfolio</title>
+    
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for Cyberpunk Theme */
+        :root {
+            --cp-yellow: #fcee0a;
+            --cp-cyan: #00f0ff;
+            --cp-red: #ff003c;
+            --cp-blue: #091353;
+            --cp-dark: #050505;
+            --cp-gray: #111111;
+            --cp-text: #e0e0e0;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--cp-dark);
+            color: var(--cp-text);
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--cp-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--cp-yellow); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--cp-cyan); }
+        
+        ::selection {
+            background-color: var(--cp-cyan);
+            color: var(--cp-dark);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Layout & Utilities */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mt-4 { margin-top: 4rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-1 { gap: 1rem; }
+        .gap-2 { gap: 2rem; }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media(min-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Cyberpunk Background Grid */
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            z-index: -2;
+        }
+
+        /* Vignette / Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem 0;
+            position: relative;
+        }
+
+        .system-status {
+            color: var(--cp-cyan);
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--cp-yellow);
+            margin: 1rem 0;
+            position: relative;
+            display: inline-block;
+        }
+        
+        @media(min-width: 768px) {
+            .hero h1 { font-size: 6rem; }
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--cp-dark);
+        }
+        .glitch::before {
+            left: 3px;
+            text-shadow: -2px 0 var(--cp-red);
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -3px;
+            text-shadow: -2px 0 var(--cp-cyan);
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 86px, 0); }
+            20% { clip: rect(61px, 9999px, 10px, 0); }
+            40% { clip: rect(98px, 9999px, 32px, 0); }
+            60% { clip: rect(23px, 9999px, 78px, 0); }
+            80% { clip: rect(75px, 9999px, 54px, 0); }
+            100% { clip: rect(42px, 9999px, 91px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(12px, 9999px, 45px, 0); }
+            40% { clip: rect(87px, 9999px, 23px, 0); }
+            60% { clip: rect(43px, 9999px, 67px, 0); }
+            80% { clip: rect(91px, 9999px, 12px, 0); }
+            100% { clip: rect(34px, 9999px, 89px, 0); }
+        }
+
+        .typing-text {
+            color: var(--cp-text);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Cyberpunk Box / Card (Chopped Corners) */
+        .cyber-box {
+            background: var(--cp-gray);
+            border-left: 4px solid var(--cp-yellow);
+            padding: 2.5rem;
+            position: relative;
+            /* The iconic Cyberpunk chopped corner */
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: var(--cp-red);
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        .cyber-box:hover {
+            border-left-color: var(--cp-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        }
+
+        .cyber-box h2 {
+            color: var(--cp-yellow);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .cyber-box h2 i {
+            margin-right: 15px;
+            color: var(--cp-cyan);
+        }
+
+        /* Profile Details */
+        .profile-stat {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #222;
+        }
+
+        .profile-stat i {
+            width: 30px;
+            color: var(--cp-red);
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--cp-cyan);
+            font-weight: 700;
+            margin: 0 10px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Quote Box */
+        .cyber-quote {
+            background: var(--cp-yellow);
+            color: var(--cp-dark);
+            padding: 1.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            border-right: 4px solid var(--cp-red);
+            font-style: italic;
+        }
+
+        /* Projects Section */
+        .projects-header {
+            color: var(--cp-cyan);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        .empty-projects {
+            text-align: center;
+            padding: 4rem;
+            border: 1px dashed var(--cp-red);
+            background: rgba(255, 0, 60, 0.05);
+            color: var(--cp-red);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--cp-yellow);
+            color: var(--cp-dark);
+            padding: 2rem 0;
+            margin-top: 4rem;
+            clip-path: polygon(0 20px, 20px 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+
+        .social-links {
+            margin-top: 1rem;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: var(--cp-dark);
+            font-size: 2rem;
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            color: var(--cp-red);
+            transform: scale(1.1) translateY(-3px);
+        }
+
+    </style>
 </head>
 <body>
-    <!-- Matrix Background -->
-    <div class="matrix-bg"></div>
-    <div class="binary-rain" id="binary-rain"></div>
-    <div class="scan-line"></div>
+    <!-- Background Elements -->
+    <div class="cyber-bg"></div>
+    <div class="scanlines"></div>
     
-    <!-- Header Section -->
-    <header class="container mx-auto px-4 py-12 relative z-10">
-        <div class="text-center mb-16">
-            <div class="mb-4">
-                <span class="terminal-text text-sm">&gt; SYSTEM_ACCESS_GRANTED</span>
-            </div>
-            <h1 class="text-5xl md:text-7xl font-bold mb-4 hacker-font">
-                <span class="glitch" data-text="[YUSHI.IN]">[YUSHI.IN]</span>
-            </h1>
-            <div class="mb-2">
-                <span class="terminal-text text-xs">// Initializing hacker protocol...</span>
-            </div>
-            <div id="typing-text" class="text-xl md:text-2xl terminal-text typing-cursor"></div>
+    <!-- Hero Section -->
+    <header class="hero container text-center anim-fade-in">
+        <div class="system-status mb-1">
+            <i class="fas fa-bolt"></i> WAKE UP, NETRUNNER // CONNECTION ESTABLISHED
         </div>
+        <h1 class="glitch" data-text="[YUSHI.IN]">[YUSHI.IN]</h1>
+        <div class="system-status mt-1 mb-2" style="color: var(--cp-red); font-size: 0.9rem;">
+            WARNING: UNAUTHORIZED ACCESS DETECTED
+        </div>
+        <div id="typing-text" class="typing-text"></div>
     </header>
     
-    <!-- Personal Info Section -->
-    <section class="container mx-auto px-4 mb-16 relative z-10">
-        <div class="max-w-4xl mx-auto hacker-border rounded-lg p-8 bg-black bg-opacity-80">
-            <div class="mb-4">
-                <span class="terminal-text text-sm">$ cat /etc/passwd | grep sahil</span>
-            </div>
-            <h2 class="text-3xl font-bold mb-6 terminal-text flex items-center hacker-font">
-                <i class="fas fa-terminal mr-3"></i> USER_PROFILE
-            </h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="space-y-4">
-                    <div class="flex items-center">
-                        <i class="fas fa-user-terminal terminal-text w-8"></i>
-                        <span class="ml-3 text-lg"><span class="font-semibold text-cyan-400">alias:</span> sahil_bhagat</span>
+    <!-- Profile Section -->
+    <section class="container mt-2">
+        <div class="cyber-box anim-slide-up">
+            <h2><i class="fas fa-microchip"></i> EDGERUNNER_PROFILE</h2>
+            
+            <div class="grid-2">
+                <div class="flex-col gap-1">
+                    <div class="profile-stat">
+                        <i class="fas fa-user-ninja"></i>
+                        <span class="stat-label">Alias:</span>
+                        <span class="stat-value">sahil_bhagat</span>
                     </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-clock terminal-text w-8"></i>
-                        <span class="ml-3 text-lg"><span class="font-semibold text-cyan-400">age:</span> 16_cycles</span>
+                    <div class="profile-stat">
+                        <i class="fas fa-battery-half"></i>
+                        <span class="stat-label">Age:</span>
+                        <span class="stat-value">16_cycles</span>
                     </div>
                 </div>
-                <div class="space-y-4">
-                    <div class="flex items-center">
-                        <i class="fas fa-calendar-alt terminal-text w-8"></i>
-                        <span class="ml-3 text-lg"><span class="font-semibold text-cyan-400">born:</span> 2009-10-23</span>
+                <div class="flex-col gap-1">
+                    <div class="profile-stat">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="stat-label">Born:</span>
+                        <span class="stat-value">2009.10.23</span>
                     </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-rocket terminal-text w-8"></i>
-                        <span class="ml-3 text-lg"><span class="font-semibold text-cyan-400">objective:</span> AI_Master</span>
+                    <div class="profile-stat">
+                        <i class="fas fa-crosshairs"></i>
+                        <span class="stat-label">Objective:</span>
+                        <span class="stat-value" style="color: var(--cp-yellow);">AI_MASTER</span>
                     </div>
                 </div>
             </div>
-            <div class="mt-6 p-4 bg-black border border-green-500 rounded">
-                <p class="terminal-text italic">"I'm gonna be a better developer than my old self! And I'm gonna be the greatest Artificial intelligence developer in the world has ever seen!"</p>
+            
+            <div class="cyber-quote">
+                "I'm gonna be a better developer than my old self! And I'm gonna be the greatest Artificial intelligence developer the world has ever seen!"
             </div>
         </div>
     </section>
     
     <!-- Projects Section -->
-    <section class="container mx-auto px-4 pb-16 relative z-10">
-        <div class="mb-8 text-center">
-            <span class="terminal-text text-sm">$ ls -la /projects/</span>
-        </div>
-        <h2 class="text-3xl font-bold mb-8 text-center terminal-text hacker-font">
-            <i class="fas fa-folder-open mr-2"></i> PROJECT_REPOSITORY
+    <section class="container mt-4 mb-2">
+        <h2 class="projects-header anim-fade-in">
+            <i class="fas fa-server"></i> DATA_SHARDS
         </h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-container">
-            <!-- Projects will be dynamically inserted here -->
+        
+        <!-- Empty Repository Container -->
+        <div class="empty-projects anim-slide-up">
+            <i class="fas fa-lock" style="font-size: 2rem; margin-bottom: 1rem; display: block;"></i>
+            NO SHARDS FOUND IN LOCAL DIRECTORY.<br>
+            AWAITING UPLOAD FROM NETRUNNER...
         </div>
     </section>
     
     <!-- Footer -->
-    <footer class="bg-black border-t border-green-500 py-6 text-center relative z-10">
-        <p class="terminal-text text-sm mb-4">© 2023 YUSHI.IN // ALL_SYSTEMS_OPERATIONAL</p>
-        <div class="flex justify-center space-x-6">
-            <a href="https://github.com/aisahilbhagat" class="terminal-text hover:text-cyan-400 transition-colors">
-                <i class="fab fa-github text-2xl"></i>
-            </a>
-            <a href="https://www.instagram.com/ai_sahil_?igsh=eTF2dHpqNmp0cHdv" class="terminal-text hover:text-cyan-400 transition-colors">
-                <i class="fab fa-instagram text-2xl"></i>
-            </a>
+    <footer>
+        <div class="container footer-content">
+            <p>SYSTEM DATE: 2077 // YUSHI.IN ONLINE</p>
+            <div class="social-links">
+                <a href="https://github.com/aisahilbhagat" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.instagram.com/ai_sahil_?igsh=eTF2dHpqNmp0cHdv" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
         </div>
     </footer>
     
     <script>
-        // Create binary rain effect
-        function createBinaryRain() {
-            const binaryRain = document.getElementById('binary-rain');
-            const chars = '01';
-            
-            for (let i = 0; i < 50; i++) {
-                const char = document.createElement('div');
-                char.className = 'binary-char';
-                char.style.left = Math.random() * 100 + '%';
-                char.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                char.style.animationDelay = Math.random() * 2 + 's';
-                char.textContent = chars[Math.floor(Math.random() * chars.length)];
-                binaryRain.appendChild(char);
-            }
-        }
-        
-        // Typing animation
+        // Typing animation for the subheader
         const typingText = document.getElementById('typing-text');
         const phrases = [
-            "Web Developer & System Architect",
-            "Cybersecurity Enthusiast",
-            "AI & Machine Learning Researcher",
-            "Full Stack Hacker"
+            "AI_ARCHITECT // IN_TRAINING",
+            "FULL_STACK // NETRUNNER",
+            "CYBERSECURITY // ENTHUSIAST",
+            "SYSTEM_OVERRIDE // READY"
         ];
+        
         let phraseIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -133,118 +434,65 @@
                 charIndex++;
             }
             
-            let typeSpeed = isDeleting ? 50 : 100;
+            // Add a blinking cursor effect manually since we aren't using CSS for it here
+            typingText.textContent += " _";
+            
+            let typeSpeed = isDeleting ? 30 : 80;
             
             if (!isDeleting && charIndex === currentPhrase.length) {
-                typeSpeed = 2000;
+                typeSpeed = 2000; // Pause at end of word
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500;
+                typeSpeed = 500; // Pause before next word
             }
             
-            setTimeout(typeText, typeSpeed);
+            // Remove the temporary cursor before the next tick to prevent duplicates
+            setTimeout(() => {
+                typingText.textContent = typingText.textContent.slice(0, -2);
+                setTimeout(typeText, typeSpeed);
+            }, 10);
         }
-        
-        // Projects data
-        const projects = [
-            {
-                title: "My chatting service",
-                description: "Well i made this as a learning project not really to shine. Well few more months and then i will make a app also for this and then we will use it.",
-                image: "chat.yushi.in.png", 
-                link: "https://chat.yushi.in",
-                tech: ["HTML", "Javascript", "CSS", "Node.js"]
-            },
-            {
-                title: "Happy birthday",
-                description: "This website i create to wish happy birthday to my sister.",
-                image: "birthday.png", 
-                link: "https://akanksha.yushi.in",
-                tech: ["HTML", "JS", "CSS"]
-            },
-            {
-                title: "Shoping app",
-                description: "[NOT READY YET],Shoping app my friend said me make for him.",
-                image: "lumen.png",
-                link: "https://lumen.yushi.in",
-                tech: ["HTML", "JS", "CSS", "Node.js"]
-            },
-             {
-                 title: "NCC Memories",
-                 description: "[Low end device warning], it's not optimized yet,i am lazy a little to do it so.BTW enjoy our NCC memories",
-                 image: "ncc.png",
-                 link: "https://ncc2024.netlify.app",
-                 tech: ["Next.js"]
-             },
-        ];
-        
-        // Create project cards with image previews
-        function createProjectCards() {
-            const container = document.getElementById('projects-container');
-            
-            projects.forEach((project, index) => {
-                const card = document.createElement('div');
-                card.className = 'project-card rounded-lg overflow-hidden flex flex-col';
 
-                card.innerHTML = `
-                    <div class="project-image-wrapper">
-                        <a href="${project.link}" target="_blank" rel="noopener noreferrer">
-                            <img src="${project.image}" alt="${project.title} preview" class="project-image">
-                        </a>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-bold terminal-text hacker-font mb-3">${project.title}</h3>
-                        <p class="text-green-300 mb-4 text-sm">${project.description}</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            ${project.tech.map(tech => `<span class="px-2 py-1 tech-tag text-xs rounded">${tech}</span>`).join('')}
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <a href="${project.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center terminal-text hover:text-cyan-400 transition-colors">
-                                <span class="text-sm">$ ./access_project</span>
-                                <i class="fas fa-external-link-alt ml-2 text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-        
-        // Initialize animations
+        // Initialize on DOM Load
         document.addEventListener('DOMContentLoaded', () => {
-            createBinaryRain();
+            // Start the typing effect
             typeText();
-            createProjectCards();
             
-            // Animate elements on scroll
+            // Anime.js Entrance Animations
+            
+            // Hero fade in and slide down
             anime({
-                targets: '.project-card',
+                targets: '.anim-fade-in',
+                opacity: [0, 1],
+                translateY: [-20, 0],
+                duration: 1500,
+                easing: 'easeOutExpo',
+                delay: anime.stagger(200)
+            });
+
+            // Boxes slide up and fade
+            anime({
+                targets: '.anim-slide-up',
+                opacity: [0, 1],
                 translateY: [50, 0],
-                opacity: [0, 1],
-                delay: anime.stagger(100),
-                duration: 800,
-                easing: 'easeOutQuad'
+                duration: 1200,
+                easing: 'easeOutElastic(1, .8)',
+                delay: anime.stagger(300, {start: 500})
             });
             
-            // Animate personal info section
+            // Footer pop-in
             anime({
-                targets: '.hacker-border',
-                translateX: [-50, 0],
+                targets: 'footer',
                 opacity: [0, 1],
+                translateY: [20, 0],
                 duration: 1000,
-                easing: 'easeOutQuad'
-            });
-            
-            // Glitch effect animation
-            anime({
-                targets: '.glitch',
-                opacity: [1, 0.8, 1],
-                duration: 2000,
-                loop: true,
-                easing: 'easeInOutSine'
+                easing: 'easeOutExpo',
+                delay: 1500
             });
         });
     </script>
 </body>
 </html>
+
