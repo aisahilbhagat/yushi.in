@@ -196,7 +196,6 @@
             border-left: 4px solid var(--cp-yellow);
             padding: 2.5rem;
             position: relative;
-            /* The iconic Cyberpunk chopped corner */
             clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
             margin-bottom: 2rem;
             transition: all 0.3s ease;
@@ -259,6 +258,13 @@
             color: #fff;
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
+        }
+        
+        #live-age {
+            color: var(--cp-yellow);
+            text-shadow: 0 0 5px rgba(252, 238, 10, 0.5);
+            min-width: 220px; /* Prevents layout shifting during fast updates */
+            display: inline-block;
         }
 
         /* Quote Box */
@@ -358,22 +364,24 @@
                         <span class="stat-label">Alias:</span>
                         <span class="stat-value">sahil_bhagat</span>
                     </div>
+                    <!-- Live Age Counter Replaces Hardcoded Age -->
                     <div class="profile-stat">
-                        <i class="fas fa-battery-half"></i>
-                        <span class="stat-label">Age:</span>
-                        <span class="stat-value">16_cycles</span>
+                        <i class="fas fa-stopwatch"></i>
+                        <span class="stat-label">Live_Age:</span>
+                        <span class="stat-value" id="live-age">CALCULATING...</span>
                     </div>
                 </div>
                 <div class="flex-col gap-1">
+                    <!-- Status Replaces Hardcoded DOB -->
                     <div class="profile-stat">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span class="stat-label">Born:</span>
-                        <span class="stat-value">2009.10.23</span>
+                        <i class="fas fa-wifi"></i>
+                        <span class="stat-label">Status:</span>
+                        <span class="stat-value" style="color: var(--cp-cyan);">ONLINE_SYNCED</span>
                     </div>
                     <div class="profile-stat">
                         <i class="fas fa-crosshairs"></i>
                         <span class="stat-label">Objective:</span>
-                        <span class="stat-value" style="color: var(--cp-yellow);">AI_MASTER</span>
+                        <span class="stat-value" style="color: var(--cp-cyan);">AI_MASTER</span>
                     </div>
                 </div>
             </div>
@@ -434,25 +442,47 @@
                 charIndex++;
             }
             
-            // Add a blinking cursor effect manually since we aren't using CSS for it here
             typingText.textContent += " _";
             
             let typeSpeed = isDeleting ? 30 : 80;
             
             if (!isDeleting && charIndex === currentPhrase.length) {
-                typeSpeed = 2000; // Pause at end of word
+                typeSpeed = 2000;
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500; // Pause before next word
+                typeSpeed = 500;
             }
             
-            // Remove the temporary cursor before the next tick to prevent duplicates
             setTimeout(() => {
                 typingText.textContent = typingText.textContent.slice(0, -2);
                 setTimeout(typeText, typeSpeed);
             }, 10);
+        }
+
+        // Live Age Counter Logic
+        function startLiveAge() {
+            // Set birthdate to October 23, 2009
+            const birthDate = new Date('2009-10-23T00:00:00').getTime();
+            const ageElement = document.getElementById('live-age');
+
+            function updateAge() {
+                const now = new Date().getTime();
+                const differenceMs = now - birthDate;
+                
+                // Calculate age in years (accounting for leap years with 365.25 days)
+                const ageInYears = differenceMs / (1000 * 60 * 60 * 24 * 365.25);
+                
+                // Format to 8 decimal places for a high-tech rapid updating look
+                ageElement.textContent = ageInYears.toFixed(8) + ' CYCLES';
+                
+                // Use requestAnimationFrame for a smooth, lag-free UI update
+                requestAnimationFrame(updateAge);
+            }
+            
+            // Start the loop
+            updateAge();
         }
 
         // Initialize on DOM Load
@@ -460,9 +490,10 @@
             // Start the typing effect
             typeText();
             
-            // Anime.js Entrance Animations
+            // Start Live Age Counter
+            startLiveAge();
             
-            // Hero fade in and slide down
+            // Anime.js Entrance Animations
             anime({
                 targets: '.anim-fade-in',
                 opacity: [0, 1],
@@ -472,7 +503,6 @@
                 delay: anime.stagger(200)
             });
 
-            // Boxes slide up and fade
             anime({
                 targets: '.anim-slide-up',
                 opacity: [0, 1],
@@ -482,7 +512,6 @@
                 delay: anime.stagger(300, {start: 500})
             });
             
-            // Footer pop-in
             anime({
                 targets: 'footer',
                 opacity: [0, 1],
@@ -495,4 +524,5 @@
     </script>
 </body>
 </html>
+
 
